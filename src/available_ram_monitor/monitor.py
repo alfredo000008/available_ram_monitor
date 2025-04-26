@@ -5,8 +5,6 @@ It provides a function to check if the available RAM is below a specified thresh
 
 import psutil
 import logging
-import tkinter as tk
-from tkinter import messagebox
 
 class RAMMonitor:
     """
@@ -78,7 +76,7 @@ class RAMMonitor:
         logging.info(f"Remaining RAM: {remaining_ram_mb:.2f} MB")
         return remaining_ram_mb
     
-    def show_current_status(self, timeout: int = 4000) -> None:
+    def show_current_status(self) -> None:
         """
         This function will show a small tkinter window with the current status of the RAM.
         It will show the total, available RAM, and the threshold. The window will close automatically after a timeout.
@@ -88,30 +86,13 @@ class RAMMonitor:
         ram = psutil.virtual_memory()
         total_ram_mb = ram.total / (1024 ** 2)
         available_ram_mb = ram.available / (1024 ** 2)
+        used_ram_mb = ram.used / (1024 ** 2)
 
-        root = tk.Tk()
-        root.withdraw()
-
-        # Create a new top-level window
-        status_window = tk.Toplevel(root)
-        status_window.title("Current RAM Status")
-        status_window.geometry("300x150")
-
-        # Add the RAM status information
-        label = tk.Label(
-            status_window,
-            text=(
-                f"Total RAM: {total_ram_mb:.2f} MB\n"
-                f"Available RAM: {available_ram_mb:.2f} MB\n"
-                f"Threshold: {self.threshold:.2%}"
-            ),
-            justify="left",
-        )
-        label.pack(pady=10)
-
-        # Close the window after the timeout
-        root.after(ms = timeout, func = status_window.destroy)
-        root.mainloop()
+        logging.info(f"Total RAM: {total_ram_mb:.2f} MB")
+        logging.info(f"Available RAM: {available_ram_mb:.2f} MB")
+        logging.info(f"Used RAM: {used_ram_mb:.2f} MB")
+        logging.info(f"Threshold: {self.threshold:.2%}")
+        
 
     def __str__(self) -> str:
         """
