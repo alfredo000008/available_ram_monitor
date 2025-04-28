@@ -17,25 +17,11 @@ on:
       - opened
       - synchronize
 
-  workflow_dispatch:
-    inputs:
-      run-tests:
-        description: 'Do you want to run tests?'
-        required: true
-        type: boolean
-        default: false
-
 
 jobs:
   RunUnitTests:
     runs-on: ubuntu-latest
-    steps:
-    - name: Check if tests should run
-      run: |
-        if [ "${{ github.event.inputs.run-tests }}" != "true" ]; then
-          echo "Tests are not running as per input."
-          exit 0
-        
+    steps:    
     - name: Get latest repo content
       uses: actions/checkout@v4
       
