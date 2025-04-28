@@ -1,8 +1,8 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Unit Tests
-run-name: Unit Tests
+name: Unit Tests from Wheel
+run-name: Unit Tests from Wheel
 on:
   push:
     branches:
@@ -16,25 +16,11 @@ on:
       - opened
       - synchronize
 
-  workflow_dispatch:
-    inputs:
-      run-tests:
-        description: 'Do you want to run tests?'
-        required: true
-        type: boolean
-        default: false
-
 
 jobs:
   RunUnitTests:
     runs-on: ubuntu-latest
-    steps:
-    - name: Check if tests should run
-      run: |
-        if [ "${{ github.event.inputs.run-tests }}" =! "true" ]; then
-          echo "Tests are not running as per input."
-          exit 0
-        
+    steps:    
     - name: Get latest repo content
       uses: actions/checkout@v4
       
@@ -50,17 +36,17 @@ jobs:
         python -m build --wheel --outdir latest_build/
         echo WHEEL_FILE_PATH=$(ls latest_build/*.whl) >> $GITHUB_ENV
    
-    - name: Install App from latest build
-      run: |
-        pip install $WHEEL_FILE_PATH
-      
     - name: Install pytest
       run: |
         pip install pytest
 
+    - name: Install App from latest build
+      run: |
+        pip install $WHEEL_FILE_PATH
+      
     - name: Run Tests
       run:
-        pytest --maxfail=1
+        pytest
         
         
     

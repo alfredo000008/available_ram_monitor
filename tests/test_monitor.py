@@ -44,6 +44,6 @@ def test_str_representation(ram_monitor):
     assert str(ram_monitor) == "RAMMonitor(threshold=20.00%)"
 
 def test_repr_representation(ram_monitor):
-    assert repr(ram_monitor) == "RAMMonitor(threshold=10.00%)"
+    assert repr(ram_monitor) == "RAMMonitor(threshold=20.00%)"
 
     
