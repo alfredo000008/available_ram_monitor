@@ -1,0 +1,17 @@
+name: Practice env variables
+run-name: Practice env variables
+on: [push]
+jobs:
+    show-name:
+        runs-on: ubuntu-latest
+        steps:
+            - name: get repo content
+              uses: actions/checkout@v4
+            
+            - name: set username
+              run: echo "USERNAME = ${{ github.actor }}" >> $GITHUB_ENV
+
+            - name: show username
+              run: python scripts/msg_from_cicd.py
+
+
